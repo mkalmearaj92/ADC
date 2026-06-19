@@ -3,4 +3,10 @@ project(ADC C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(ADC main.c)
+add_executable(ADC main.c
+        io.c
+        io.h
+        adc.c
+        adc.h
+        stats.c
+        stats.h)
