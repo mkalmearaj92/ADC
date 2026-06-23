@@ -6,5 +6,5 @@
 #define ADC_IO_H
 #include "adc.h"
 
-void  readSensorData ( char *filename);
+AdcSample *  readSensorData ( char *filename);
 #endif //ADC_IO_H

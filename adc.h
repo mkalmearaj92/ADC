@@ -6,17 +6,17 @@
 #define ADC_ADC_H
 #include <stdint.h>
 
-typedef struct {
-    float timestamp;
-    uint8_t channelID;
-    uint16_t raw_value; //adc
-    int16_t temperature; //could be negative
-    uint8_t status_flags;
-    uint32_t sequence_number;
-    uint8_t reserved[2]; //array of reserved
+typedef struct __attribute__((__packed__)) {
+    float timestamp; //4 bytes
+    uint8_t channelID; //1
+    uint16_t raw_value; //adc 2
+    int16_t temperature; //could be negative 2
+    uint8_t status_flags; //1
+    uint32_t sequence_number; //4
+    uint8_t reserved[2]; //array of reserved 2
 }AdcSample;
 
-typedef struct {
+typedef struct __attribute__((__packed__)) {
     uint32_t magic;
     uint16_t version;
     uint16_t channel_count;
