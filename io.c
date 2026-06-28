@@ -32,14 +32,27 @@ AdcSample * readSensorData(char * filename) {
         fclose(file);
         return NULL ;
     }
+    if (header.sample_count ==0) {
+        printf("file empty \n");
+        fclose(file);
+        return NULL ;
+    }
     printf("\n-----------------------------------------\n");
     // dynamic memory allocation should be used
     // to reservce memory at running time
     sample = malloc(header.sample_count * sizeof(AdcSample));
 
-    fread(sample, sizeof(AdcSample), header.sample_count, file);
 
+    for (uint32_t i  = 0; i < header.sample_count; i++) {
+        fread(&sample[i].timestamp, sizeof(float), 1, file);
+        fread(&sample[i].channelID, sizeof(uint8_t), 1, file);
+        fread(&sample[i].raw_value, sizeof(uint16_t), 1, file);
+        sample[i].voltage = (sample[i].raw_value / 4095.0f ) * 3.3f; // calcualte volt for each raw value during reading
+        fread(&sample[i].temperature, sizeof(uint16_t), 1, file);
+        fread(&sample[i].status_flags, sizeof(uint8_t), 1, file);
+        fread(&sample[i].sequence_number, sizeof(uint32_t), 1, file);
+        fread(&sample[i].reserved, sizeof(uint8_t), 2   , file);
+    }
     fclose(file);
     return sample;
 }
-

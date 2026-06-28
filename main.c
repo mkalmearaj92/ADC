@@ -8,7 +8,6 @@ int main(void) {
     AdcSample  * records;
    records =  readSensorData("adc_sensor_log.bin");
 
-    //testing of reading the data
     for (uint32_t i = 0;
          i <  10;
          i++)
@@ -18,6 +17,7 @@ int main(void) {
             "Timestamp       : %.4f s\n"
             "Channel ID      : %u\n"
             "Raw Value       : %u\n"
+            "Voltage         :%.4f\n"
             "Temperature     : %d\n"
             "Status Flags    : 0x%02X\n"
             "Sequence Number : %u\n"
@@ -31,6 +31,7 @@ int main(void) {
             records[i].channelID,
 
             records[i].raw_value,
+            records[i].voltage,
 
             records[i].temperature,
 
@@ -43,7 +44,7 @@ int main(void) {
             records[i].reserved[1]
         );
     }
-    printf("ADC size is : %lu \n " ,sizeof(AdcSample));
+    //printf("ADC size is : %lu \n " ,sizeof(AdcSample));
     return 0;
 }
 

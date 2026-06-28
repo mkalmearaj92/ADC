@@ -10,6 +10,7 @@ typedef struct __attribute__((__packed__)) {
     float timestamp; //4 bytes
     uint8_t channelID; //1
     uint16_t raw_value; //adc 2
+    float voltage;
     int16_t temperature; //could be negative 2
     uint8_t status_flags; //1
     uint32_t sequence_number; //4
