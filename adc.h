@@ -25,5 +25,15 @@ typedef struct __attribute__((__packed__)) {
     uint32_t sample_rate;
     uint8_t reserved[8];
 }Header;
+
+typedef  struct {
+    int higherVoltage_fault; //counter for overvoltages >3 V
+    int lowerVoltage_fault  ;//counter for undervoltages < 0.3 V
+    int sensor_fault; //count for sensorfault where 0000 000(1) is one
+}Faults;
+
+
+void detectFaults ( AdcSample * records,uint32_t sample_count,Faults faults[4]);
+
 #endif //ADC_ADC_H
 

@@ -6,7 +6,8 @@
 int main(void) {
     printf("Welcome to ADC project!  \n\n");
     AdcSample  * records;
-   records =  readSensorData("adc_sensor_log.bin");
+    Header header;
+   records =  readSensorData("adc_sensor_log.bin",&header);
 
     for (uint32_t i = 0;
          i <  10;

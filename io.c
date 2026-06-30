@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-AdcSample * readSensorData(char * filename) {
+AdcSample * readSensorData(char * filename , Header * header) {
 
     FILE *file;
     AdcSample  * sample;
@@ -16,23 +16,21 @@ AdcSample * readSensorData(char * filename) {
         printf("Error opening file\n");
         return NULL;
     }
-
-    Header header;
-    fread(&header, sizeof(Header), 1, file);
+    fread(header, sizeof(Header), 1, file);
     printf("header info AS FOLLOWING :\n");
-    printf("Version is : %u\n" , header.version);
-    printf("Channel count is : %u\n" , header.channel_count);
-    printf("Sample rate is : %u\n" , header.sample_rate);
-    printf("records count: %u\n", header.sample_count);
+    printf("Version is : %u\n" , header->version);
+    printf("Channel count is : %u\n" , header->channel_count);
+    printf("Sample rate is : %u\n" , header->sample_rate);
+    printf("records count: %u\n", header->sample_count);
 
     //check the magic number is correct
-    if (header.magic != 0xADC1BEEF) {
+    if (header->magic != 0xADC1BEEF) {
         //incorrect file
         printf("Error with file \n");
         fclose(file);
         return NULL ;
     }
-    if (header.sample_count ==0) {
+    if (header->sample_count ==0) {
         printf("file empty \n");
         fclose(file);
         return NULL ;
@@ -40,10 +38,10 @@ AdcSample * readSensorData(char * filename) {
     printf("\n-----------------------------------------\n");
     // dynamic memory allocation should be used
     // to reservce memory at running time
-    sample = malloc(header.sample_count * sizeof(AdcSample));
+    sample = malloc(header->sample_count * sizeof(AdcSample));
 
 
-    for (uint32_t i  = 0; i < header.sample_count; i++) {
+    for (uint32_t i  = 0; i < header->sample_count; i++) {
         fread(&sample[i].timestamp, sizeof(float), 1, file);
         fread(&sample[i].channelID, sizeof(uint8_t), 1, file);
         fread(&sample[i].raw_value, sizeof(uint16_t), 1, file);
